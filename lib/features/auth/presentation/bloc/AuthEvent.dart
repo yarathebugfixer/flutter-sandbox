@@ -21,3 +21,7 @@ class LogOutRequestedEvent extends AuthEvent {
   
 }
 
+class AppStartedEvent extends AuthEvent {
+}
+
+

@@ -1,3 +1,4 @@
-abstract class BaseUseCase<T>{
-  Future<T> execute(int? number);
+
+abstract class BaseUseCase<T, P>{
+  Future<T> execute([P? params]) ;
 }

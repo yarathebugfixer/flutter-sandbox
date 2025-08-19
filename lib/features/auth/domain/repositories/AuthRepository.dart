@@ -1,13 +1,13 @@
 
-import 'package:injectable/injectable.dart';
-import 'package:tut_app/features/auth/data/models/User.dart' show User;
+import 'package:tut_app/features/auth/data/models/User.dart' as UserModel;
 
-
-@LazySingleton()
 abstract class AuthRepository {
-  Future<User?> signIn(String email, String password);
+  Future<UserModel.User?> signIn(String email, String password);
 
-  Future<User?> signUp(String email, String password, String name);
+  Future<UserModel.User?> signUp(String email, String password, String username);
 
   Future<void> logOut();
+
+  UserModel.User? getCurrentUser();
+
 }

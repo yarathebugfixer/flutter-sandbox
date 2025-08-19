@@ -1,8 +1,15 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'service_locator.config.dart'; // This will be generated
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:tut_app/service_locator.config.dart';
 
 final getIt = GetIt.instance;
 
 @injectableInit
-void configureDependencies() => getIt.init();
+Future<void> configureDependencies() async {
+  getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
+  getIt.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
+
+  getIt.init();
+}
