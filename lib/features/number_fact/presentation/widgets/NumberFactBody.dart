@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:tut_app/features/number_fact/presentation/bloc/NumberFactBloc.dart';
 import 'package:tut_app/features/number_fact/presentation/bloc/NumberFactEvent.dart';
 
@@ -24,13 +23,16 @@ class NumberFactBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final numberFactBloc = context.read<NumberFactBloc>();
+    final theme = Theme.of(context);
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
+          Text(
             'Random Fact',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           Container(
@@ -42,18 +44,18 @@ class NumberFactBody extends StatelessWidget {
 
           // Spinner instead of number when fetching new fact
           if (isFactLoading)
-            const SizedBox(
+            SizedBox(
               width: 20,
               height: 20,
               child: CircularProgressIndicator(
-                color: Color.fromARGB(255, 89, 55, 148),
+                color: theme.colorScheme.primary,
                 strokeWidth: 2,
               ),
             )
           else
             Text(
               '$number',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
             ),
 
           const SizedBox(height: 16),
@@ -65,19 +67,18 @@ class NumberFactBody extends StatelessWidget {
             child: Text(
               fact,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16),
+              style: theme.textTheme.bodyLarge,
             ),
           ),
 
           const SizedBox(height: 16),
 
-          // Spinner instead of check button when Gemini is checking
           if (isCheckLoading)
-            const SizedBox(
+            SizedBox(
               width: 20,
               height: 20,
               child: CircularProgressIndicator(
-                color:  Color.fromARGB(255, 89, 55, 148),
+                color: theme.colorScheme.primary,
                 strokeWidth: 2,
               ),
             )
@@ -92,7 +93,10 @@ class NumberFactBody extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text("Fact check this with Gemini!"),
+              child: Text(
+                "Fact check this with Gemini!",
+                style: theme.textTheme.labelLarge,
+              ),
             )
           else
             Container(
@@ -100,11 +104,20 @@ class NumberFactBody extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 checkedText!,
-                ),
+                style: theme.textTheme.bodyMedium,
               ),
-            
+            ),
+
+          IconButton(
+            onPressed: () {
+              numberFactBloc.add(NumberFactRefreshedEvent());
+            },
+            icon: Icon(Icons.refresh_outlined, color: theme.iconTheme.color),
+          ),
         ],
       ),
+
+      
     );
   }
 }

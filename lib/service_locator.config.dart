@@ -11,8 +11,10 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
+import 'package:flutter_sound/flutter_sound.dart' as _i908;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:tut_app/core/theme/ThemeCubit.dart' as _i971;
 import 'package:tut_app/features/auth/data/datasources/remote/FirebaseDataSource.dart'
     as _i576;
 import 'package:tut_app/features/auth/data/datasources/remote/FirebaseDataSourceImpl.dart'
@@ -30,6 +32,20 @@ import 'package:tut_app/features/auth/domain/usecases/SignInUseCase.dart'
 import 'package:tut_app/features/auth/domain/usecases/SignUpUseCase.dart'
     as _i531;
 import 'package:tut_app/features/auth/presentation/bloc/AuthBloc.dart' as _i630;
+import 'package:tut_app/features/intent/data/datasources/local/ai/IntentDataSource.dart'
+    as _i503;
+import 'package:tut_app/features/intent/data/datasources/local/ai/IntentDataSourceImpl.dart'
+    as _i629;
+import 'package:tut_app/features/intent/data/repositories/IntentRepositoryImpl.dart'
+    as _i642;
+import 'package:tut_app/features/intent/domain/repositories/IntentRepository.dart'
+    as _i583;
+import 'package:tut_app/features/intent/domain/usecases/ExtractIntentUseCase.dart'
+    as _i503;
+import 'package:tut_app/features/intent/domain/usecases/HandleIntentUseCase.dart'
+    as _i464;
+import 'package:tut_app/features/intent/presentation/bloc/IntentBloc.dart'
+    as _i477;
 import 'package:tut_app/features/number_fact/data/datasources/remote/ai/GeminiDataSource.dart'
     as _i734;
 import 'package:tut_app/features/number_fact/data/datasources/remote/ai/GeminiDataSourceImpl.dart'
@@ -56,11 +72,16 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.factory<_i464.HandleIntentUseCase>(() => _i464.HandleIntentUseCase());
+    gh.singleton<_i971.ThemeCubit>(() => _i971.ThemeCubit());
     gh.lazySingleton<_i943.NumberFactRemoteDataSource>(
       () => _i531.NumberFactRemoteDataSourceImpl(),
     );
     gh.lazySingleton<_i734.GeminiDataSource>(
       () => _i475.GeminiDataSourceImpl(),
+    );
+    gh.lazySingleton<_i503.IntentDataSource>(
+      () => _i629.IntentDataSourceImpl(gh<_i908.FlutterSoundRecorder>()),
     );
     gh.lazySingleton<_i42.NumberFactRepository>(
       () => _i639.NumberFactRepositoryImpl(
@@ -89,6 +110,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i992.GetCurrentUserUseCase>(
       () => _i992.GetCurrentUserUseCase(gh<_i395.AuthRepository>()),
     );
+    gh.lazySingleton<_i583.IntentRepository>(
+      () => _i642.IntentRepositoryImpl(gh<_i503.IntentDataSource>()),
+    );
     gh.factory<_i440.GetNumberFactUseCase>(
       () => _i440.GetNumberFactUseCase(gh<_i42.NumberFactRepository>()),
     );
@@ -103,10 +127,20 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i992.GetCurrentUserUseCase>(),
       ),
     );
+    gh.factory<_i503.ExtractIntentUseCase>(
+      () => _i503.ExtractIntentUseCase(gh<_i583.IntentRepository>()),
+    );
     gh.factory<_i932.NumberFactBloc>(
       () => _i932.NumberFactBloc(
         gh<_i440.GetNumberFactUseCase>(),
         gh<_i685.FactCheckWithAIUseCase>(),
+      ),
+    );
+    gh.factory<_i477.IntentBloc>(
+      () => _i477.IntentBloc(
+        gh<_i503.ExtractIntentUseCase>(),
+        gh<_i464.HandleIntentUseCase>(),
+        gh<_i971.ThemeCubit>(),
       ),
     );
     return this;

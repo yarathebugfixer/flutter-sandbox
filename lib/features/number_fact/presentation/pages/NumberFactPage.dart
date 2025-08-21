@@ -1,24 +1,23 @@
-// NumberFactPage.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tut_app/features/auth/presentation/bloc/AuthBloc.dart';
 import 'package:tut_app/features/auth/presentation/bloc/AuthEvent.dart';
 import 'package:tut_app/features/auth/presentation/bloc/AuthState.dart';
 import 'package:tut_app/features/number_fact/presentation/bloc/NumberFactBloc.dart';
-import 'package:tut_app/features/number_fact/presentation/bloc/NumberFactEvent.dart';
 import 'package:tut_app/features/number_fact/presentation/bloc/NumberFactState.dart';
 import 'package:tut_app/features/number_fact/presentation/widgets/NumberFactBody.dart';
+import 'package:tut_app/features/intent/presentation/widgets/IntentWidget.dart';
 
 class NumberFactPage extends StatelessWidget {
   const NumberFactPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final numberFactBloc = context.read<NumberFactBloc>();
+    final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xffF3F5FF),
+        backgroundColor: Colors.white,
         title: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, authState) {
             final isAuthenticated = authState is Authenticated;
@@ -32,10 +31,10 @@ class NumberFactPage extends StatelessWidget {
               },
               child: CircleAvatar(
                 radius: 24,
-                backgroundColor: const Color(0xffF3F5FF),
+                backgroundColor: theme.scaffoldBackgroundColor,
                 child: Icon(
                   isAuthenticated ? Icons.person : Icons.arrow_back,
-                  color: const Color.fromARGB(255, 89, 55, 148),
+                  color: theme.colorScheme.primary,
                   size: 28,
                 ),
               ),
@@ -43,10 +42,9 @@ class NumberFactPage extends StatelessWidget {
           },
         ),
       ),
-      backgroundColor: const Color(0xffF3F5FF),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: BlocBuilder<NumberFactBloc, NumberFactState>(
         builder: (context, state) {
-
           return NumberFactBody(
             fact: state.fact,
             number: state.number,
@@ -57,20 +55,7 @@ class NumberFactPage extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              onPressed: () {
-                numberFactBloc.add(NumberFactRefreshedEvent());
-              },
-              icon: const Icon(Icons.refresh_outlined),
-            ),
-          ],
-        ),
-      ),
+      floatingActionButton: SpeechButton(),
     );
   }
 }
