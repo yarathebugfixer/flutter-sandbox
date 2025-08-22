@@ -55,7 +55,7 @@ class NumberFactPage extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: SpeechButton(),
+      floatingActionButton: IntentWidget(),
     );
   }
 }

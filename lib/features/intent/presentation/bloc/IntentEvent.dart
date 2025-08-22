@@ -11,7 +11,6 @@ class IntentRecognizedEvent  extends IntentEvent {
   IntentRecognizedEvent(this.enumIntent);
 }
 
-
 class IntentErrorEvent extends IntentEvent {
   final String message;
   IntentErrorEvent(this.message);

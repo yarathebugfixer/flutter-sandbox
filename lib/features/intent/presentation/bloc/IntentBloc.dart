@@ -19,7 +19,11 @@ class IntentBloc extends Bloc<IntentEvent, IntentState> {
     this.themeCubit,
   ) : super(IntentState.initial()) {
     on<StartListeningIntentEvent>((event, emit) async {
-      final userIntent = await extractIntentUseCase.execute();
+      print("hi from bloc");
+      final userIntentStream = await extractIntentUseCase.execute();
+      var userIntent;
+      userIntentStream.listen((data) => userIntent = data);
+
       final enumIntent = await handleIntentUseCase.execute(userIntent);
       add(IntentRecognizedEvent(enumIntent));
     });
@@ -37,8 +41,11 @@ class IntentBloc extends Bloc<IntentEvent, IntentState> {
           themeCubit.setLight();
           break;
         default:
-          themeCubit.toggle();
+          add(IntentErrorEvent("I don't have this function right now."));
       }
     });
+    on<IntentErrorEvent>(
+      (event, emit) => state.copyWith(errorMessage: event.message),
+    );
   }
 }

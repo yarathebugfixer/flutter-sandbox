@@ -11,8 +11,8 @@ class IntentRepositoryImpl implements IntentRepository {
   @override
 
   @override
-  Future<UserIntent> listen() async {
-    return await intentDataSource.listen();
+  Stream<UserIntent> listen() async* {
+    yield* intentDataSource.listen();
   }
 
   @override

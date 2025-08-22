@@ -34,7 +34,7 @@ macos
 .pub/
 /build/
 /lib/core/firebase/firebase.options.dart
-android/app/src/google-services.json
+/android/app/google-services.json
 
 
 # Symbolication related

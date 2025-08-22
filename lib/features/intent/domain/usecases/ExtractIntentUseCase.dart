@@ -4,13 +4,13 @@ import 'package:tut_app/features/number_fact/domain/usecases/BaseUseCase.dart';
 import 'package:tut_app/features/intent/domain/repositories/IntentRepository.dart';
 
 @injectable
-class ExtractIntentUseCase extends BaseUseCase<UserIntent, void> {
+class ExtractIntentUseCase extends StreamUseCase<UserIntent, void> {
   IntentRepository intentRepository;
   ExtractIntentUseCase(this.intentRepository);
 
   @override
-  Future<UserIntent> execute([void params]) async {
-    return await intentRepository.listen();
+  Stream<UserIntent> execute([void params])  {
+    return intentRepository.listen();
   }
 
   Future<void> stop() => intentRepository.stopListening();
