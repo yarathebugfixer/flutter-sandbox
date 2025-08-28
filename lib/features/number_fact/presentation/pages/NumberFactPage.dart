@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tut_app/core/settings/UserSettingsCubit.dart';
+import 'package:tut_app/core/settings/UserSettingsState.dart';
+import 'package:tut_app/core/themes/themes.dart';
 import 'package:tut_app/features/auth/presentation/bloc/AuthBloc.dart';
 import 'package:tut_app/features/auth/presentation/bloc/AuthEvent.dart';
 import 'package:tut_app/features/auth/presentation/bloc/AuthState.dart';
@@ -16,32 +19,8 @@ class NumberFactPage extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: BlocBuilder<AuthBloc, AuthState>(
-          builder: (context, authState) {
-            final isAuthenticated = authState is Authenticated;
-            return GestureDetector(
-              onTap: () {
-                if (!isAuthenticated) {
-                  Navigator.pushNamed(context, '/signin');
-                } else {
-                  context.read<AuthBloc>().add(LogOutRequestedEvent());
-                }
-              },
-              child: CircleAvatar(
-                radius: 24,
-                backgroundColor: theme.scaffoldBackgroundColor,
-                child: Icon(
-                  isAuthenticated ? Icons.person : Icons.arrow_back,
-                  color: theme.colorScheme.primary,
-                  size: 28,
-                ),
-              ),
-            );
-          },
-        ),
-      ),
+      
+      
       backgroundColor: theme.scaffoldBackgroundColor,
       body: BlocBuilder<NumberFactBloc, NumberFactState>(
         builder: (context, state) {

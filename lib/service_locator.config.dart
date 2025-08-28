@@ -14,7 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:flutter_sound/flutter_sound.dart' as _i908;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
-import 'package:tut_app/core/theme/ThemeCubit.dart' as _i971;
+import 'package:tut_app/core/settings/UserSettingsCubit.dart' as _i284;
 import 'package:tut_app/features/auth/data/datasources/remote/FirebaseDataSource.dart'
     as _i576;
 import 'package:tut_app/features/auth/data/datasources/remote/FirebaseDataSourceImpl.dart'
@@ -72,8 +72,8 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.factory<_i284.SettingsCubit>(() => _i284.SettingsCubit());
     gh.factory<_i464.HandleIntentUseCase>(() => _i464.HandleIntentUseCase());
-    gh.singleton<_i971.ThemeCubit>(() => _i971.ThemeCubit());
     gh.lazySingleton<_i943.NumberFactRemoteDataSource>(
       () => _i531.NumberFactRemoteDataSourceImpl(),
     );
@@ -140,7 +140,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i477.IntentBloc(
         gh<_i503.ExtractIntentUseCase>(),
         gh<_i464.HandleIntentUseCase>(),
-        gh<_i971.ThemeCubit>(),
       ),
     );
     return this;
