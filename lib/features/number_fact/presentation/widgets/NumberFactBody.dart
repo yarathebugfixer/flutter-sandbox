@@ -28,6 +28,7 @@ class NumberFactBody extends StatelessWidget {
 
     return Center(
       child: Column(
+        
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
@@ -59,9 +60,8 @@ class NumberFactBody extends StatelessWidget {
             ),
 
           const SizedBox(height: 16),
-
-          // Fact text (full width, centered)
           Container(
+
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text(

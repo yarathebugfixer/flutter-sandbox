@@ -51,12 +51,12 @@ class App extends StatelessWidget {
                 return MaterialPageRoute(
                   builder: (_) => Scaffold(
                     appBar: AppBar(
+                      
+                      backgroundColor: const Color(0xffF3F5FF),
                       actions: [
-                        // Theme color dropdown
                         BlocBuilder<SettingsCubit, SettingsState>(
                           builder: (context, settingState) {
                             return SizedBox(
-                              width: 60,
                               child: DropdownButton<Color>(
                                 value: settingState.color,
                                 icon: const Icon(
@@ -84,41 +84,39 @@ class App extends StatelessWidget {
                                     context.read<SettingsCubit>().setTheme(
                                       newColor,
                                     );
-                                  
                                   }
                                 },
                               ),
                             );
                           },
                         ),
-
-                        // Avatar / logout button
-                        GestureDetector(
-                          onTap: () {
-                            if (!isAuthenticated) {
-                              Navigator.pushNamed(context, '/signin');
-                            } else {
-                              context.read<AuthBloc>().add(
-                                LogOutRequestedEvent(),
-                              );
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: CircleAvatar(
-                              radius: 24,
-                              backgroundColor:
-                                  settingsState.themeData.scaffoldBackgroundColor,
-                              child: Icon(
-                                isAuthenticated
-                                    ? Icons.person
-                                    : Icons.arrow_back,
-                                color: Colors.white,
-                                size: 28,
-                              ),
-                            ),
-                          ),
-                        ),
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     if (!isAuthenticated) {
+                        //       Navigator.pushNamed(context, '/signin');
+                        //     } else {
+                        //       context.read<AuthBloc>().add(
+                        //         LogOutRequestedEvent(),
+                        //       );
+                        //     }
+                        //   },
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.symmetric(horizontal: 12),
+                        //     child: CircleAvatar(
+                        //       radius: 24,
+                        //       backgroundColor: settingsState
+                        //           .themeData
+                        //           .scaffoldBackgroundColor,
+                        //       child: Icon(
+                        //         isAuthenticated
+                        //             ? Icons.person
+                        //             : Icons.arrow_back,
+                        //         color: Colors.blue,
+                        //         size: 28,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                     body: page,

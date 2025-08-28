@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tut_app/core/settings/UserSettingsCubit.dart';
-import 'package:tut_app/core/settings/UserSettingsState.dart';
-import 'package:tut_app/core/themes/themes.dart';
-import 'package:tut_app/features/auth/presentation/bloc/AuthBloc.dart';
-import 'package:tut_app/features/auth/presentation/bloc/AuthEvent.dart';
-import 'package:tut_app/features/auth/presentation/bloc/AuthState.dart';
 import 'package:tut_app/features/number_fact/presentation/bloc/NumberFactBloc.dart';
 import 'package:tut_app/features/number_fact/presentation/bloc/NumberFactState.dart';
 import 'package:tut_app/features/number_fact/presentation/widgets/NumberFactBody.dart';
@@ -16,12 +10,9 @@ class NumberFactPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
-      
-      
-      backgroundColor: theme.scaffoldBackgroundColor,
+      backgroundColor: const Color(0xffF3F5FF),
+
       body: BlocBuilder<NumberFactBloc, NumberFactState>(
         builder: (context, state) {
           return NumberFactBody(
